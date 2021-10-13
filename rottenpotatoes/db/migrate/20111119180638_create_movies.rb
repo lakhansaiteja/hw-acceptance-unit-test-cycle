@@ -15,3 +15,9 @@ class CreateMovies < ActiveRecord::Migration
     drop_table :movies
   end
 end
+
+class AddDirectorToMovies < ActiveRecord::Migration
+  def change
+    add_column :movies, :director, :string
+  end
+end
