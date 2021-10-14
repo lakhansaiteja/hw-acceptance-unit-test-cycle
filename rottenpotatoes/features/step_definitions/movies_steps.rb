@@ -23,3 +23,13 @@ Then /I should see all the movies/ do
     step %{I should see "#{movie.title}"}
   end
 end
+
+Then /the director of "([^"]*)" should be "([^"]*)"/ do |movie, director|
+  if page.respond_to? :should
+    page.should have_content("Details about "+movie)
+    page.should have_content("Director: "+director)
+  else
+    assert page.has_content?("Details about "+movie)
+    assert page.has_content?("Director: "+director)
+  end
+end
