@@ -70,9 +70,38 @@ describe MoviesController do
     end
 
     describe 'Testing index method' do
-        it 'should get movies' do
-            expect(Movie).to receive(:all).and_return([movies(:rise_of_the_planet_of_the_apes), movies(:dawn_of_the_planet_of_the_apes)])
-            get :index
+        it 'testing without sorting and filtering' do
+            expect(Movie).to receive(:all_ratings).and_return(['G', 'PG'])
+            expect(Movie).to receive(:with_ratings).with(nil,['G', 'PG']).and_return([movies(:rise_of_the_planet_of_the_apes), movies(:dawn_of_the_planet_of_the_apes)])
+            get :index, {home: true}
+            response.response_code.should == 200
+        end
+
+        it 'testing with sorting' do
+            expect(Movie).to receive(:all_ratings).and_return(['G', 'PG'])
+            expect(Movie).to receive(:with_ratings).with('title',['G', 'PG']).and_return([movies(:rise_of_the_planet_of_the_apes), movies(:dawn_of_the_planet_of_the_apes)])
+            get :index, {home: true, sort_column: 'title'}
+            response.response_code.should == 200
+        end
+
+        it 'testing with filtering' do
+            expect(Movie).to receive(:all_ratings).and_return(['G', 'PG'])
+            expect(Movie).to receive(:with_ratings).with(nil,['G']).and_return([movies(:rise_of_the_planet_of_the_apes), movies(:dawn_of_the_planet_of_the_apes)])
+            get :index, {home: true, ratings: {'G' => 1}}
+            response.response_code.should == 200
+        end
+
+        it 'testing with sorting and filtering' do
+            expect(Movie).to receive(:all_ratings).and_return(['G', 'PG'])
+            expect(Movie).to receive(:with_ratings).with('release_date',['G']).and_return([movies(:rise_of_the_planet_of_the_apes), movies(:dawn_of_the_planet_of_the_apes)])
+            get :index, {home: true, sort_column: 'release_date', ratings: {'G' => 1}}
+            response.response_code.should == 200
+        end
+
+        it 'testing with session data' do
+            expect(Movie).to receive(:all_ratings).and_return(['G', 'PG'])
+            expect(Movie).to receive(:with_ratings).with(nil,['PG']).and_return([movies(:rise_of_the_planet_of_the_apes), movies(:dawn_of_the_planet_of_the_apes)])
+            get :index, {}, { ratings: ['PG']}
             response.response_code.should == 200
         end
     end

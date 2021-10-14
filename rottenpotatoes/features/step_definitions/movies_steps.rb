@@ -33,3 +33,21 @@ Then /the director of "([^"]*)" should be "([^"]*)"/ do |movie, director|
     assert page.has_content?("Director: "+director)
   end
 end
+
+Then /(.*) seed movies should exist/ do | n_seeds |
+  expect(Movie.count).to eq n_seeds.to_i
+end
+
+Then /I should see the following movies: (.*)$/ do |movies_list|
+  movies = movies_list.split(', ')
+  movies.each do |movie|
+    expect(page).to have_content(movie)
+  end
+end
+
+Then /I should not see the following movies: (.*)$/ do |movies_list|
+  movies = movies_list.split(', ')
+  movies.each do |movie|
+    expect(page).to have_no_content(movie)
+  end
+end

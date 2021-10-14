@@ -1,8 +1,10 @@
 rise_of_the_planet_of_the_apes:
-  title: rise_of_the_planet_of_the_apes
-  director: rupert_wyatt
+  title: 'rise_of_the_planet_of_the_apes'
+  director: 'rupert_wyatt'
   id: 100
+  rating: 'PG'
 
 dawn_of_the_planet_of_the_apes:
-  title: dawn_of_the_planet_of_the_apes
-  director: rupert_wyatt
+  title: 'dawn_of_the_planet_of_the_apes'
+  director: 'rupert_wyatt'
+  rating: 'R'
